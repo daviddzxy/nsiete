@@ -1,44 +1,67 @@
-# Návrh zadania
+Návrh zadania
+=============
 
-## Motivácia
+Motivácia
+---------
 
-## Súvisiaca práca
+Súvisiaca práca
+---------------
 
-## Dataset
+Obdobným problémom a to klasifikáciou plemien psov sa už zaoberali viaceré
+práce. Vo väčšine týchto prác sa použil model konvolučnej neurónovej siete,
+ktorý sa použil na klasifikáciu dát. Existujú práce zaoberajúce sa témou
+klasifikácie plemien psov, ktoré pri tvorbe svojho modelu na klasifikáciu
+využívali už existujúci model ResNet50 z knižnice Keras. Tento už natrénovaný
+model ďalej trénovali. Pri trénovaní jedna z prác vykonala kvôli časovej
+zložitosti výpočtov iba 20 epoch, pri ktorých už pomocou metriky správnosť
+(angl. accuracy) rovnej 4.5% pozorovali učenie sa modelu. Pri vykonaní 250 epoch
+predpokladali správnosť modelu na úrovni 40%.
 
-Pri riešení nášho projektu budeme používať [Stanford dog dataset](http://vision.stanford.edu/aditya86/ImageNetDogs/), ktorý obsahuje 20,580 obrázkov 120 plemien psov. Tento odataset obsahuje anotácie a obrázky z ImageNet-u, čo je databáza obrázkov navrhnutá na výskum v oblasti rozpoznávania obrázkov.
+Pri tejto práci bola použitá dátová množina, ktorá obsahovala 133 rôznych
+plemien psov. Cieľom tejto práce bolo, rozoznanie či sa na obrázku jedná o
+človeka, alebo psa, kde v prípade ak sa detekoval pes tak sa klasifikovala aj
+jeho rasa.
 
-Samotné dáta obsahujú obrázky rôznej veľkosti vo formáte jpg a ďalšie doplňujúce informácie v xml formáte ako plemeno psa, veľkosť obrázku a bounding box.
+Dataset
+-------
 
-![Obrzok z datasetu](doggo.png)
+Pri riešení nášho projektu budeme používať [Stanford dog
+dataset](http://vision.stanford.edu/aditya86/ImageNetDogs/), ktorý obsahuje
+20,580 obrázkov 120 plemien psov. Tento odataset obsahuje anotácie a obrázky z
+ImageNet-u, čo je databáza obrázkov navrhnutá na výskum v oblasti rozpoznávania
+obrázkov.
 
-```
+Samotné dáta obsahujú obrázky rôznej veľkosti vo formáte jpg a ďalšie doplňujúce
+informácie v xml formáte ako plemeno psa, veľkosť obrázku a bounding box.
+
+![Obrzok z datasetu](media/e014b59f37d30ce320e08649fe37fa00.png)
+
+Obrzok z datasetu
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <annotation>
-	<folder>02106166</folder>
-	<filename>n02106166_1031</filename>
-	<source>
-		<database>ImageNet database</database>
-	</source>
-	<size>
-		<width>500</width>
-		<height>372</height>
-		<depth>3</depth>
-	</size>
-	<segment>0</segment>
-	<object>
-		<name>Border_collie</name>
-		<pose>Unspecified</pose>
-		<truncated>0</truncated>
-		<difficult>0</difficult>
-		<bndbox>
-			<xmin>11</xmin>
-			<ymin>46</ymin>
-			<xmax>376</xmax>
-			<ymax>334</ymax>
-		</bndbox>
-	</object>
+    <folder>02106166</folder>
+    <filename>n02106166_1031</filename>
+    <source>
+        <database>ImageNet database</database>
+    </source>
+    <size>
+        <width>500</width>
+        <height>372</height>
+        <depth>3</depth>
+    </size>
+    <segment>0</segment>
+    <object>
+        <name>Border_collie</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>11</xmin>
+            <ymin>46</ymin>
+            <xmax>376</xmax>
+            <ymax>334</ymax>
+        </bndbox>
+    </object>
 </annotation>
-```
-
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
