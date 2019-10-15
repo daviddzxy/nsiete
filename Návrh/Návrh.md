@@ -3,6 +3,7 @@ Návrh zadania
 
 Motivácia
 ---------
+V našej práci budeme klasifikovať plemená psov. Klasifikácia objektov v obrázkoch pomocou konvolučných neurónových sietí je pomerne prebádaná oblasť. V našom projekte sa budeme snažiť overiť viacero postupov a architektúr strojového učenia použitého pri klasifikácii obrázkov. Pomocou moderných techník sa budeme pokúšať dosiahnúť výsledky porovnateľné s výsledkami súčasných metdód.
 
 Súvisiaca práca
 ---------------
@@ -65,3 +66,7 @@ Obrzok z datasetu
     </object>
 </annotation>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Návrh riešenia
+-----------------
+Náš prvý krok riešenia bude spočívať v analýze poskytnutých dát. Pokračovať budeme predspracovaním dát, čo bude zahŕňat prepísanie anotácii z XML formátu do csv formátu, orezanie obrázkov pomocou bounding box súradníc a normálizácii dát. Následne budeme pokračovať so samotným trénovaním siete. Pri trénovaní vyskúšame našu vlastnú architektúru siete a aj iné súčasné architektúry využívajúce sa pri klasifikácii obrázkov. Pri trénovaní použijeme techniku prehľadávania hyperparametrov gridsearch. Pri používaní iných architektúr môžeme skúsiť použiť aj techniku transfer learning a porovnať výsledky s našou architektúrou. Výsledky použitých architektúr následne porovnáme a vyvodíme z nich závery.
