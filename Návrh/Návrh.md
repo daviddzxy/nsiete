@@ -8,20 +8,6 @@ V našej práci budeme klasifikovať plemená psov. Klasifikácia objektov v obr
 Súvisiaca práca
 ---------------
 
-Obdobným problémom a to klasifikáciou plemien psov sa už zaoberali viaceré
-práce. Vo väčšine týchto prác sa použil model konvolučnej neurónovej siete,
-ktorý sa použil na klasifikáciu dát. Existujú práce zaoberajúce sa témou
-klasifikácie plemien psov, ktoré pri tvorbe svojho modelu na klasifikáciu
-využívali už existujúci model ResNet50 z knižnice Keras. Tento už natrénovaný
-model ďalej trénovali. Pri trénovaní jedna z prác vykonala kvôli časovej
-zložitosti výpočtov iba 20 epoch, pri ktorých už pomocou metriky správnosť
-(angl. accuracy) rovnej 4.5% pozorovali učenie sa modelu. Pri vykonaní 250 epoch
-predpokladali správnosť modelu na úrovni 40%.
-
-Pri tejto práci bola použitá dátová množina, ktorá obsahovala 133 rôznych
-plemien psov. Cieľom tejto práce bolo, rozoznanie či sa na obrázku jedná o
-človeka, alebo psa, kde v prípade ak sa detekoval pes tak sa klasifikovala aj
-jeho rasa.
 
 Dataset
 -------
@@ -69,4 +55,4 @@ Obrzok z datasetu
 
 ## Návrh riešenia
 -----------------
-Náš prvý krok riešenia bude spočívať v analýze poskytnutých dát. Pokračovať budeme predspracovaním dát, čo bude zahŕňat prepísanie anotácii z XML formátu do csv formátu, orezanie obrázkov pomocou bounding box súradníc a normálizácii dát. Následne budeme pokračovať so samotným trénovaním siete. Pri trénovaní vyskúšame našu vlastnú architektúru siete a aj iné súčasné architektúry využívajúce sa pri klasifikácii obrázkov. Pri trénovaní použijeme techniku prehľadávania hyperparametrov gridsearch. Pri používaní iných architektúr môžeme skúsiť použiť aj techniku transfer learning a porovnať výsledky s našou architektúrou. Výsledky použitých architektúr následne porovnáme a vyvodíme z nich závery.
+Náš prvý krok riešenia bude spočívať v analýze poskytnutých dát. Pokračovať budeme predspracovaním dát, čo bude zahŕňat prepísanie anotácii z XML formátu do csv formátu, orezanie obrázkov pomocou bounding box súradníc a normálizácii dát. Následne budeme pokračovať so samotným trénovaním siete. Pri trénovaní vyskúšame našu vlastnú architektúru siete a aj iné súčasné architektúry využívajúce sa pri klasifikácii obrázkov. Pri trénovaní použijeme techniku prehľadávania hyperparametrov gridsearch, taktiež augmentáciu dát na zväčšenie trénovacej množiny. Pri používaní iných architektúr môžeme skúsiť použiť aj techniku transfer learning a porovnať výsledky s našou architektúrou. Výsledky použitých architektúr následne porovnáme a vyvodíme z nich závery.
