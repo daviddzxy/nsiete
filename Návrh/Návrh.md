@@ -21,7 +21,7 @@ obrázkov.
 Samotné dáta obsahujú obrázky rôznej veľkosti vo formáte jpg a ďalšie doplňujúce
 informácie v xml formáte ako plemeno psa, veľkosť obrázku a bounding box.
 
-![Obrzok z datasetu](media/e014b59f37d30ce320e08649fe37fa00.png)
+![Obrzok z datasetu](doggo.png)
 
 Obrzok z datasetu
 
