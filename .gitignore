@@ -2,3 +2,5 @@
 *.swp
 nsieteenv/
 Návrh/media/
+data/raw/*
+data/processed/*
