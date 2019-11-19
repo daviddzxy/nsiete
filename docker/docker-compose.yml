@@ -9,5 +9,5 @@ services:
     working_dir: /nsiete
     volumes:
       - ../:/nsiete
-    stdin_open: "true"
-    tty: "true"
+    stdin_open: true
+    tty: true
