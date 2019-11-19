@@ -1,8 +1,13 @@
-import  tensorflow.keras as keras
+import tensorflow.keras as keras
 import numpy as np
+import re
+import os
 
 class DataLoader(keras.utils.Sequence):
     def __init__(self, x_set, y_set, batch_size):
+        if re.match(".*/src$", os.getcwd()):
+            os.chdir("../")
+        self.data_path = "./data/processed/" 
         self.x, self.y = x_set, y_set
         self.batch_size = batch_size
         self.shuffle()
@@ -19,4 +24,4 @@ class DataLoader(keras.utils.Sequence):
         batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
         return np.array([
-            np.array(np.load("../data/processed/" + str(file_name)+ ".npy")) for file_name in batch_x]), np.array(batch_y)
+            np.array(np.load(self.data_path + str(file_name)+ ".npy")) for file_name in batch_x]), np.array(batch_y)
