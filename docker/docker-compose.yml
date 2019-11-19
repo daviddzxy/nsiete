@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  tensorflow:
+    image: riso8500/nsiete_project:latest
+    container_name: "nsiete-project"
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    working_dir: /nsiete
+    volumes:
+      - ../:/nsiete
+    stdin_open: "true"
+    tty: "true"
