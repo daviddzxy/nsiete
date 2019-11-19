@@ -31,10 +31,10 @@ def main(args):
 
     train, test = train_test_split(df, test_size=0.2, random_state=0, stratify=df[['name']])
     
-    train_datagen= ImageDataGenerator()
+    train_datagen = ImageDataGenerator()
 
     train_generator = train_datagen.flow_from_dataframe(
-        dataframe=df,
+        dataframe=train,
         directory='./data/processed',
         x_col="id",
         y_col="name",
