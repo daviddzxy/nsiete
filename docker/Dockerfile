@@ -3,6 +3,8 @@ FROM tensorflow/tensorflow:latest-gpu-py3-jupyter
 COPY requirements.txt /tmp
 
 RUN pip install -r /tmp/requirements.txt
+RUN apt-get install -y libsm6 libxext6 libxrender-dev
+
 
 RUN mkdir -p /nsiete && chmod -R a+rwx /nsiete/
 WORKDIR /nsiete
