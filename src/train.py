@@ -94,17 +94,16 @@ if __name__ == "__main__":
     parser.add_argument("-b", "--batch-size", default="4", type=int, help="Sets batch size.")
     parser.add_argument("-n", "--network", default="Inception", type=str, help="Type of network.")
     parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training.")
-    parser.add_argument("-w", "--workaround", default="0", type=int, help="Turn on workaround for Error \"Cudnn could "
+    parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument "
-                                                                          "to 1.") 
+                                                                          ) 
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
-    if parsed_args.workaround ==  1:
-        print("Workaround is set on")
+    if parsed_args.workaround:
         physical_devices = tf.config.experimental.list_physical_devices('GPU')
         tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
