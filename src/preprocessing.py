@@ -19,9 +19,7 @@ def main(args):
         img = cv2.imread(raw_data_path + row["filename"] + ".jpg")
         img = img[row["ymin"]:row["ymax"], row["xmin"]: row["xmax"]]  # crop image
         img = cv2.resize(img, (args.r, args.r))
-        img = img / 255
         cv2.imwrite(processed_data_path + str(row["id"]) + ".png", img)
-
 
 
 if __name__ == '__main__':
