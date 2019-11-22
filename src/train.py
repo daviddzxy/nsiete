@@ -16,7 +16,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 def main(args):
     if re.match(".*/src$", os.getcwd()):
         os.chdir("../")  #  change directory to root directory
-
+    
+    date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     df = pd.read_csv("./data/annotations.csv")
 
     if args.dog_breeds is not None:
@@ -55,7 +56,7 @@ def main(args):
             args.network,
             filters=32,
             dim_output=len(df["name"].unique()))
-    
+
     opt = keras.optimizers.Adam(
             learning_rate=args.learning_rate,
             beta_1=0.9,
@@ -66,9 +67,9 @@ def main(args):
             loss="sparse_categorical_crossentropy",
             optimizer=opt,
             metrics=["accuracy"])
-
+    
     callbacks = [
-        keras.callbacks.TensorBoard(log_dir=os.path.join("logs", str(datetime.datetime.now())),
+        keras.callbacks.TensorBoard(log_dir=os.path.join("logs", date),
         histogram_freq=1,
         profile_batch=0)]
 
@@ -90,6 +91,8 @@ def main(args):
 
     model.summary()
 
+    model.save("./models/" + args.network + "_" + date + ".h5")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Training script.")
@@ -102,8 +105,7 @@ if __name__ == "__main__":
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
                                                                           "spec GPU. Workaround is turned off by "
-                                                                          "default, to turn it on set the -w argument "
-                                                                          ) 
+                                                                          "default, to turn it on set the -w argument")
     parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ")
     parsed_args = parser.parse_args()
 
