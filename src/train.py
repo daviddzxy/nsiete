@@ -9,7 +9,7 @@ import networks
 import dataload
 
 
-# only for testing puproses 
+# only for testing puproses
 # tbd
 df = pd.read_csv('../data/annotations.csv')
 df = df.loc[(df["name"] == 'Chihuahua') | (df["name"] == 'African_hunting_dog')]
@@ -21,7 +21,8 @@ le_name_mapping = dict(zip(le.classes_, le.transform(le.classes_)))
 ids = df["id"].astype(int).to_numpy()
 
 dg = dataload.DataLoader(ids, labels, 32)
-model = networks.InceptionNet(32, dim_output=2)
+model = networks.CNN(64, dim_output=2)
+#model = networks.InceptionNet(32, dim_output=2)
 
 model.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
 opt = keras.optimizers.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0.999, amsgrad=False)

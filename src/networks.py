@@ -1,14 +1,25 @@
 from tensorflow import keras
-from tensorflow.keras.layers import concatenate, Conv2D, Dense, Flatten, Layer, MaxPooling2D
+from tensorflow.keras.layers import concatenate, Conv2D, Dense, Flatten, Layer, MaxPooling2D, Dropout
 
 class ConvNet(keras.Model):
     def __init__(self):
-       super(keras.Model, self).__init__() 
+       super(keras.Model, self).__init__()
 
     def call(self, x):
         for layer in self.model_layers:
             x = layer(x)
         return x
+
+class ConvolutionLayer(Layer):
+    def __init__(self, filters, activation):
+        super(ConvolutionLayer, self).__init__()
+
+        self.conv = Conv2D(
+            filters,
+            kernel_size=(3, 3),
+            strides=(1, 1),
+            padding='same',
+            activation=activation)
 
 
 class InceptionLayer(Layer):
@@ -59,6 +70,30 @@ class InceptionLayer(Layer):
         x = concatenate([x1, x2, x3, x4], axis=3)
         return x
 
+class CNN(ConvNet):
+    def __init__(self, filters, dim_output):
+        super(ConvNet, self).__init__()
+        self.model_layers = [
+            ConvolutionLayer(
+                filters=filters,
+                activation='relu'),
+            MaxPooling2D(
+                pool_size=(2, 2)),
+            ConvolutionLayer(
+                filters=filters/2,
+                activation='relu'),
+            MaxPooling2D(
+                pool_size=(2, 2)),
+            Dropout(0.25),
+            Flatten(),
+            Dense(
+                units = 128,
+                activation='relu'),
+            Dropout(0.5),
+            Dense(
+                dim_output,
+                activation='softmax')
+        ]
 
 class InceptionNet(ConvNet):
     def __init__(self, filters, dim_output):
