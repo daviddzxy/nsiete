@@ -51,15 +51,10 @@ def main(args):
         batch_size=args.batch_size,
         class_mode="sparse")
 
-    model = networks.CNN(
+    model = networks.network_factory(
         args.network,
-        filters=64,
+        filters=32,
         dim_output=len(df["name"].unique()))
-
-    # model = networks.network_factory(
-    #     args.network,
-    #     filters=32,
-    #     dim_output=len(df["name"].unique()))
 
     opt = keras.optimizers.Adam(
         learning_rate=args.learning_rate,
@@ -110,7 +105,7 @@ if __name__ == "__main__":
                                                                         "default, to turn it on set the -w argument "
                         )
     parser.add_argument("-d", "--dog-breeds", nargs="*",
-                        help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ")
+                        help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ",)
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.

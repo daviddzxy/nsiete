@@ -3,6 +3,7 @@ from tensorflow.keras.layers import concatenate, Conv2D, Dense, Flatten, Layer, 
 
 def network_factory(class_type, filters, dim_output):
     if class_type == "Inception": return InceptionNet(filters, dim_output)
+    if class_type == "Convolution": return InceptionNet(filters, dim_output)
 
     raise Exception("Class type was not recognized.")
 
