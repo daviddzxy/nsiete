@@ -15,9 +15,13 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def main(args):
     if re.match(".*/src$", os.getcwd()):
-        os.chdir("../")  # change directory to root directory
+        os.chdir("../")  #  change directory to root directory
+
     df = pd.read_csv("./data/annotations.csv")
-    # df = df.loc[(df["name"] == 'Chihuahua') | (df["name"] == 'African_hunting_dog')]
+
+    if args.dog_breeds is not None:
+        df = df[df["name"].isin(args.dog_breeds)]
+
     df = df.sample(frac=1)  # shuffle dataframe
     df["id"] = df["id"].apply(lambda x: str(x) + ".png")
 
@@ -100,6 +104,7 @@ if __name__ == "__main__":
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument "
                                                                           ) 
+    parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
