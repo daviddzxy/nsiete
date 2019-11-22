@@ -91,7 +91,7 @@ def main(args):
 
     model.summary()
 
-    model.save("./models/" + args.network + "_" + date + ".h5")
+    model.save("./model_weights/" + args.network + "_" + date + ".h5")
 
 
 if __name__ == "__main__":
