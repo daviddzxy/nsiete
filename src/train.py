@@ -16,20 +16,24 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 def main(args):
     if re.match(".*/src$", os.getcwd()):
         os.chdir("../")  # change directory to root directory
+
     df = pd.read_csv("./data/annotations.csv")
-    df = df.loc[(df["name"] == 'Chihuahua') | (df["name"] == 'African_hunting_dog')]
+
+    if args.dog_breeds is not None:
+        df = df[df["name"].isin(args.dog_breeds)]
+
     df = df.sample(frac=1)  # shuffle dataframe
     df["id"] = df["id"].apply(lambda x: str(x) + ".png")
 
     #  stratify keeps the ratio of classes in train and test
     train, test = train_test_split(
-            df,
-            train_size=0.2,
-            random_state=0,
-            stratify=df[['name']])
+        df,
+        train_size=0.2,
+        random_state=0,
+        stratify=df[['name']])
 
-    train_datagen = ImageDataGenerator(rescale=1./255)
-    test_datagen = ImageDataGenerator(rescale=1./255)
+    train_datagen = ImageDataGenerator(rescale=1. / 255)
+    test_datagen = ImageDataGenerator(rescale=1. / 255)
 
     train_generator = train_datagen.flow_from_dataframe(
         dataframe=train,
@@ -51,44 +55,46 @@ def main(args):
         args.network,
         filters=64,
         dim_output=len(df["name"].unique()))
+
     # model = networks.network_factory(
-    #         args.network,
-    #         filters=32,
-    #         dim_output=len(df["name"].unique()))
+    #     args.network,
+    #     filters=32,
+    #     dim_output=len(df["name"].unique()))
 
     opt = keras.optimizers.Adam(
-            learning_rate=args.learning_rate,
-            beta_1=0.9,
-            beta_2=0.999,
-            amsgrad=False)
+        learning_rate=args.learning_rate,
+        beta_1=0.9,
+        beta_2=0.999,
+        amsgrad=False)
 
     model.compile(
-            loss="sparse_categorical_crossentropy",
-            optimizer=opt,
-            metrics=["accuracy"])
+        loss="sparse_categorical_crossentropy",
+        optimizer=opt,
+        metrics=["accuracy"])
 
     callbacks = [
         keras.callbacks.TensorBoard(log_dir=os.path.join("logs", str(datetime.datetime.now())),
-        histogram_freq=1,
-        profile_batch=0)]
+                                    histogram_freq=1,
+                                    profile_batch=0)]
 
     model.fit_generator(
-            train_generator,
-            steps_per_epoch=None,
-            epochs=args.epochs,
-            verbose=1,
-            callbacks=callbacks,
-            validation_data=test_generator,
-            validation_steps=None,
-            validation_freq=1,
-            class_weight=None,
-            max_queue_size=10,
-            workers=6,
-            use_multiprocessing=False,
-            shuffle=True,
-            initial_epoch=0)
+        train_generator,
+        steps_per_epoch=None,
+        epochs=args.epochs,
+        verbose=1,
+        callbacks=callbacks,
+        validation_data=test_generator,
+        validation_steps=None,
+        validation_freq=1,
+        class_weight=None,
+        max_queue_size=10,
+        workers=6,
+        use_multiprocessing=False,
+        shuffle=True,
+        initial_epoch=0)
 
     model.summary()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Training script.")
@@ -98,11 +104,13 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--network", default="Inception", type=str, help="Type of network.")
     parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
-                                                                          "not create handle\" because of low memory. "
-                                                                          "Run only if you train the model on low "
-                                                                          "spec GPU. Workaround is turned off by "
-                                                                          "default, to turn it on set the -w argument "
-                                                                          )
+                                                                        "not create handle\" because of low memory. "
+                                                                        "Run only if you train the model on low "
+                                                                        "spec GPU. Workaround is turned off by "
+                                                                        "default, to turn it on set the -w argument "
+                        )
+    parser.add_argument("-d", "--dog-breeds", nargs="*",
+                        help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
@@ -110,4 +118,4 @@ if __name__ == "__main__":
         physical_devices = tf.config.experimental.list_physical_devices('GPU')
         tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-
+    main(parsed_args)
