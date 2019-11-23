@@ -8,7 +8,7 @@
 ```
 1. git clone https://github.com/daviddzxy/nsiete.git
 2. cd nsiete
-3. 
+3. curl https://transfer.sh/188VD/raw.zip --output raw.zip && unzip -jnq raw.zip raw/* -d data/raw/ && rm raw.zip
 4. docker-compose -f docker/docker-compose.yml up --no-start
 5. ./run_docker_sh
 6. python src/preprocessing.py
