@@ -106,7 +106,7 @@ if __name__ == "__main__":
                                                                           "Run only if you train the model on low "
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument")
-    parser.add_argument("-d", "--dog-breeds", nargs="*", default=argparse.SUPPRESS, help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
+    parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
