@@ -70,8 +70,7 @@ def main(args):
 
     callbacks = [
         keras.callbacks.TensorBoard(log_dir=os.path.join("logs",  date + '_' + args.network + '_dogs_' + str(args.dog_breeds).strip('[]')),
-        histogram_freq=1,
-        profile_batch=0)]
+        histogram_freq=1)]
 
     model.fit_generator(
             train_generator,
