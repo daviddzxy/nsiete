@@ -5,15 +5,15 @@ import argparse
 import cv2
 import re
 
-parser = argparse.ArgumentParser("Preprocessing of images in /data/raw/.")
+parser = argparse.ArgumentParser("Preprocessing of images in /data/raw/. Cuts out dogs from images and resizes them. Preprocessed images are stored in /data/processed.")
 
 
 def main(args):
     if re.match(".*/src$", os.getcwd()) or re.match(".*/notebooks$", os.getcwd()):
         os.chdir("../")  # change directory to root directory
-    annotation_path = args.a
-    raw_data_path = args.s
-    processed_data_path = args.d
+    annotation_path = "./data/annotations.csv"
+    raw_data_path = "./data/raw/" 
+    processed_data_path = "./data/processed/"
     df = pd.read_csv(annotation_path)
     for index, row in df.iterrows():
         img = cv2.imread(raw_data_path + row["filename"] + ".jpg")
@@ -23,10 +23,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser.add_argument("-r", default="128", type=int, help="Width and height of resized image")
-    parser.add_argument("-s", default="./data/raw/", type=str, help="Source directory path of images")
-    parser.add_argument("-d", default="./data/processed/", type=str, help="Destination directory path of images")
-    parser.add_argument("-a", default="./data/annotations.csv", type=str, help="Path to csv annotation")
+    parser.add_argument("-r", "--resize", default="128", type=int, help="Width and height of resized image.")
 
     parsed_args = parser.parse_args()
     main(parsed_args)

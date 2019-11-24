@@ -95,18 +95,18 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Training script.")
+    parser = argparse.ArgumentParser("Training script.", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-e", "--epochs", default="10", type=int, help="Sets number of epochs.")
     parser.add_argument("-l", "--learning-rate", default="0.0001", type=float, help="Sets learning rate.")
-    parser.add_argument("-b", "--batch-size", default="4", type=int, help="Sets batch size.")
-    parser.add_argument("-n", "--network", default="Inception", type=str, help="Type of network.")
-    parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training.")
+    parser.add_argument("-b", "--batch-size", default="32", type=int, help="Sets batch size.")
+    parser.add_argument("-n", "--network", default="Inception", type=str, choices=['Inception','BaseConv'], help="Type of network.")
+    parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training. Default=0.8.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument")
-    parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv ")
+    parser.add_argument("-d", "--dog-breeds", nargs="*", default=argparse.SUPPRESS, help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
