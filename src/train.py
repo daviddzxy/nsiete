@@ -14,9 +14,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def main(args):
-    if re.match(".*/src$", os.getcwd()):
+    if re.match(".*/src$", os.getcwd()) or re.match(".*/notebooks$", os.getcwd()):
         os.chdir("../")  #  change directory to root directory
-    
+
     date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     df = pd.read_csv("./data/annotations.csv")
 
@@ -32,7 +32,7 @@ def main(args):
             train_size=0.2,
             random_state=0,
             stratify=df[['name']])
-    
+
     train_datagen = ImageDataGenerator(rescale=1./255)
     test_datagen = ImageDataGenerator(rescale=1./255)
 
@@ -67,9 +67,9 @@ def main(args):
             loss="sparse_categorical_crossentropy",
             optimizer=opt,
             metrics=["accuracy"])
-    
+
     callbacks = [
-        keras.callbacks.TensorBoard(log_dir=os.path.join("logs", date),
+        keras.callbacks.TensorBoard(log_dir=os.path.join("logs",  date + '_' + args.network + '_dogs_' + str(args.dog_breeds).strip('[]')),
         histogram_freq=1,
         profile_batch=0)]
 
@@ -91,7 +91,7 @@ def main(args):
 
     model.summary()
 
-    model.save("./model_weights/" + args.network + "_" + date + ".h5")
+    model.save_weights("./model_weights/" + date + '_' + args.network + '_dogs_' + str(args.dog_breeds).strip('[]') + ".h5")
 
 
 if __name__ == "__main__":

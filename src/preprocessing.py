@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser("Preprocessing of images in /data/raw/.")
 
 
 def main(args):
-    if re.match(".*/src$", os.getcwd()):
+    if re.match(".*/src$", os.getcwd()) or re.match(".*/notebooks$", os.getcwd()):
         os.chdir("../")  # change directory to root directory
     annotation_path = args.a
     raw_data_path = args.s
