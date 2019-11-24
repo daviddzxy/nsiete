@@ -28,13 +28,15 @@ nsiete/
 │   ├── docker-compose.yml
 │   ├── Dockerfile
 │   └── requirements.txt
+├── documentation
+│   ├── doggo.png
+│   ├── inception_layer.png
+│   ├── proposal.md
+│   └── solution.md
 ├── logs # priečinok na ukladanie záznamov trénovania
 ├── model_weights # priečinok na ukladanie váh modelov
 ├── notebooks
 │   └── data_analysis.ipynb
-├── proposal
-│   ├── doggo.png
-│   └── proposal.md
 ├── README.md
 ├── run_docker.sh # skript na spustenie docker containera 
 └── src
