@@ -33,9 +33,19 @@ def main(args):
             random_state=0,
             stratify=df[['name']])
 
-    train_datagen = ImageDataGenerator(rescale=1./255)
-    test_datagen = ImageDataGenerator(rescale=1./255)
+    if args.augmentation:
+        train_datagen = ImageDataGenerator(rescale=1./255,
+                horizontal_flip=True,
+                rotation_range=30,
+                zoom_range=0.15,
+                shear_range=0.15,
+                width_shift_range=0.2,
+                height_shift_range=0.2,
+                fill_mode="nearest")
+    else:
+        train_datagen = ImageDataGenerator(rescale=1./255)
 
+    test_datagen = ImageDataGenerator(rescale=1./255)
     train_generator = train_datagen.flow_from_dataframe(
         dataframe=train,
         directory='./data/processed',
@@ -106,6 +116,7 @@ if __name__ == "__main__":
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument")
     parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
+    parser.add_argument("-a", "--augmentation", action="store_true", help="Allow augmentation.")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
