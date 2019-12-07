@@ -79,7 +79,9 @@ def main(args):
 
     callbacks = [
         keras.callbacks.TensorBoard(log_dir=os.path.join("logs",  date + '_' + args.network),
-        histogram_freq=1)]
+        histogram_freq=1),
+        keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0.01, patience=5, verbose=1, restore_best_weights=True)]
+
 
     model.fit_generator(
             train_generator,
@@ -108,7 +110,6 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--learning-rate", default="0.0001", type=float, help="Sets learning rate.")
     parser.add_argument("-b", "--batch-size", default="32", type=int, help="Sets batch size.")
     parser.add_argument("-n", "--network", default="Inception", type=str, choices=["Inception", "InceptionV3","BaseConv"], help="Type of network.")
-    parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training. Default=0.8.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
