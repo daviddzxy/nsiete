@@ -109,7 +109,7 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--epochs", default="10", type=int, help="Sets number of epochs.")
     parser.add_argument("-l", "--learning-rate", default="0.0001", type=float, help="Sets learning rate.")
     parser.add_argument("-b", "--batch-size", default="32", type=int, help="Sets batch size.")
-    parser.add_argument("-n", "--network", default="Inception", type=str, choices=["Inception", "InceptionV3","BaseConv"], help="Type of network.")
+    parser.add_argument("-n", "--network", default="Inception", type=str, choices=["Inception", "InceptionV3", "BaseConv", "InceptionResNet"], help="Type of network.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
