@@ -29,19 +29,30 @@ def main(args):
     #  stratify keeps the ratio of classes in train and test
     train, test = train_test_split(
             df,
-            train_size=0.2,
+            train_size=args.split,
             random_state=0,
-            stratify=df[['name']])
+            stratify=df[["name"]])
 
-    train_datagen = ImageDataGenerator(rescale=1./255)
+    if args.augmentation:
+        train_datagen = ImageDataGenerator(rescale=1./255,
+                horizontal_flip=True,
+                rotation_range=30,
+                zoom_range=0.15,
+                shear_range=0.15,
+                width_shift_range=0.2,
+                height_shift_range=0.2,
+                fill_mode="nearest")
+    else:
+        train_datagen = ImageDataGenerator(rescale=1./255)
+
     test_datagen = ImageDataGenerator(rescale=1./255)
-
     train_generator = train_datagen.flow_from_dataframe(
         dataframe=train,
         directory='./data/processed',
         x_col="id",  # image filename
         y_col="name",
         batch_size=args.batch_size,
+        target_size=(299, 299),
         class_mode="sparse")
 
     test_generator = test_datagen.flow_from_dataframe(
@@ -50,6 +61,7 @@ def main(args):
         x_col="id",
         y_col="name",
         batch_size=args.batch_size,
+        target_size=(299, 299),
         class_mode="sparse")
 
     model = networks.network_factory(
@@ -98,7 +110,7 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--epochs", default="10", type=int, help="Sets number of epochs.")
     parser.add_argument("-l", "--learning-rate", default="0.0001", type=float, help="Sets learning rate.")
     parser.add_argument("-b", "--batch-size", default="32", type=int, help="Sets batch size.")
-    parser.add_argument("-n", "--network", default="Inception", type=str, choices=['Inception','BaseConv'], help="Type of network.")
+    parser.add_argument("-n", "--network", default="Inception", type=str, choices=['Inception', 'InceptionV3','BaseConv'], help="Type of network.")
     parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training. Default=0.8.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
@@ -106,6 +118,7 @@ if __name__ == "__main__":
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument")
     parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
+    parser.add_argument("-a", "--augmentation", action="store_true", help="Allow augmentation.")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.

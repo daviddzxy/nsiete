@@ -1,9 +1,11 @@
 from tensorflow import keras
 from tensorflow.keras.layers import concatenate, Conv2D, Dense, Flatten, Layer, MaxPooling2D, Dropout
+from tensorflow.keras.applications.inception_v3 import InceptionV3
 
-def network_factory(class_type, filters, dim_output):
+def network_factory(class_type, filters, dim_output, dim_input=None):
     if class_type == "Inception": return InceptionNet(filters, dim_output)
     if class_type == "BaseConv": return BaseConvNet(filters, dim_output)
+    if class_type == "InceptionV3": return InceptionV3(weights=None, classes=dim_output)
 
     raise Exception("Class type was not recognized.")
 
