@@ -5,8 +5,6 @@ import argparse
 import cv2
 import re
 
-parser = argparse.ArgumentParser("Preprocessing of images in /data/raw/. Cuts out dogs from images and resizes them. Preprocessed images are stored in /data/processed.")
-
 
 def main(args):
     if re.match(".*/src$", os.getcwd()) or re.match(".*/notebooks$", os.getcwd()):
@@ -18,12 +16,13 @@ def main(args):
     for index, row in df.iterrows():
         img = cv2.imread(raw_data_path + row["filename"] + ".jpg")
         img = img[row["ymin"]:row["ymax"], row["xmin"]: row["xmax"]]  # crop image
-        img = cv2.resize(img, (args.r, args.r))
+        img = cv2.resize(img, (args.resize, args.resize))
         cv2.imwrite(processed_data_path + str(row["id"]) + ".png", img)
 
 
 if __name__ == '__main__':
-    parser.add_argument("-r", "--resize", default="128", type=int, help="Width and height of resized image.")
+    parser = argparse.ArgumentParser("Preprocessing of images in /data/raw/. Cuts out dogs from images and resizes them. Preprocessed images are stored in /data/processed.")
+    parser.add_argument("-r", "--resize", default="299", type=int, help="Width and height of resized image.")
 
     parsed_args = parser.parse_args()
     main(parsed_args)
