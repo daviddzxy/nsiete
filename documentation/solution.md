@@ -1,14 +1,14 @@
 # Dokumentácia riešenia
-Tento dokument obsahuje popis riešenia nášho projektu.
+Tento dokument obsahuje popis riešenia nášho projektu. Návod na spustenie skriptov sa nachádza v README.md v roote projektu.
 
-## Dáta
+## __Dáta__
 Naše dáta pochádzajú zo Stanford Dog Datasetu, sú to obrázky získané z ImageNet databázy. Dataset obsahuje 22126 obrázkov psov 120 rôznych plemien.
 
-## Preprocessing
+## __Predspracovanie__
 Každý obrázok obsahoval aspoň jedného psa, pričom pre každého psa na obrázku boli uvedené bounding box súradnice, podľa ktorých sme psov z obrázkov vyrezávali. Následne sme každý vyrezaný obrázok interpolovali na veľkost 299x299 pixelov.
 ![Bouding boxes](bounding_boxes.png)
 
-## Použité architektúry
+## __Použité architektúry__
 Celkovo sme použili štyri architektúry z čoho dve boli naše vlastné. 
 
 ### BaseConv 
@@ -82,6 +82,27 @@ dense_1 (Dense)
 ### InceptionResNetV2
 InceptionResNetV2 obsahuje Inception vrstvy, ktoré sú oproti InceptionV3 zjednodušené, taktiež je táto sieť oproti V3 hlbšia. Hlavným vylepšením tejto siete sú reziduálne spojenia,ktoré napomáhajú pri trénovaní extrémne hlbokých sietí. Celá špecifikácie siete je [tu](https://arxiv.org/pdf/1602.07261.pdf).
 
-
 ![InceptionV3](inception_res_net.png)
 
+## __Trénovanie__
+Na trénovanie sme používali 80% obrázkov z celej množiny, validovali sme na ostatných 20% obrázkov. Pri trénovaní sme taktiež využili augmentáciu s nasledujúcimi parametrami:
+
+```
+horizontal_flip=True,
+rotation_range=30,
+zoom_range=0.15,
+shear_range=0.15,
+width_shift_range=0.2,
+height_shift_range=0.2,
+fill_mode="nearest"
+```
+
+Príklad augmentovaných obrázkov(prvý obrázok je originál):
+![Augmentácia](augmentation.png)
+
+Na zastavenie trénovania sme používali techniku skorého zastavenia, ktoré sledovalo hodnotu validačnej loss funkcie, ak sa hodnota loss funkcie nezlepšila 5 epóch za sebou, tak sa trénovanie zastavilo a váhy modelu sa nastavili na posledné s najlepšou hodnotou validačnej loss funkcie.
+
+## __Experimenty__
+
+
+## __Záver__
