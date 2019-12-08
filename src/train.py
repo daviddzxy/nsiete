@@ -18,44 +18,53 @@ def main(args):
         os.chdir("../")  #  change directory to root directory
 
     date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-    df = pd.read_csv("./data/annotations.csv")
+    df_train = pd.read_csv("./data/train.csv")
+    df_valid = pd.read_csv("./data/valid.csv")
 
+    # select dog breeds to train on
     if args.dog_breeds is not None:
-        df = df[df["name"].isin(args.dog_breeds)]
+        df_train = df_train[df_train["name"].isin(args.dog_breeds)]
+        df_valid = df_valid[df_valid["name"].isin(args.dog_breeds)]
 
-    df = df.sample(frac=1)  # shuffle dataframe
-    df["id"] = df["id"].apply(lambda x: str(x) + ".png")
+    df_train["id"] = df_train["id"].apply(lambda x: str(x) + ".png")
+    df_valid["id"] = df_valid["id"].apply(lambda x: str(x) + ".png")
 
-    #  stratify keeps the ratio of classes in train and test
-    train, test = train_test_split(
-            df,
-            train_size=0.2,
-            random_state=0,
-            stratify=df[['name']])
+    if args.augmentation:
+        train_datagen = ImageDataGenerator(rescale=1./255,
+                horizontal_flip=True,
+                rotation_range=30,
+                zoom_range=0.15,
+                shear_range=0.15,
+                width_shift_range=0.2,
+                height_shift_range=0.2,
+                fill_mode="nearest")
+    else:
+        train_datagen = ImageDataGenerator(rescale=1./255)
 
-    train_datagen = ImageDataGenerator(rescale=1./255)
     test_datagen = ImageDataGenerator(rescale=1./255)
 
     train_generator = train_datagen.flow_from_dataframe(
-        dataframe=train,
-        directory='./data/processed',
+        dataframe=df_train,
+        directory="./data/processed",
         x_col="id",  # image filename
         y_col="name",
         batch_size=args.batch_size,
+        target_size=(299, 299),
         class_mode="sparse")
 
-    test_generator = test_datagen.flow_from_dataframe(
-        dataframe=test,
-        directory='./data/processed',
+    valid_generator = test_datagen.flow_from_dataframe(
+        dataframe=df_valid,
+        directory="./data/processed",
         x_col="id",
         y_col="name",
         batch_size=args.batch_size,
+        target_size=(299, 299),
         class_mode="sparse")
 
     model = networks.network_factory(
             args.network,
             filters=32,
-            dim_output=len(df["name"].unique()))
+            dim_output=len(df_train["name"].unique()))
 
     opt = keras.optimizers.Adam(
             learning_rate=args.learning_rate,
@@ -69,8 +78,10 @@ def main(args):
             metrics=["accuracy"])
 
     callbacks = [
-        keras.callbacks.TensorBoard(log_dir=os.path.join("logs",  date + '_' + args.network + '_dogs_' + str(args.dog_breeds).strip('[]')),
-        histogram_freq=1)]
+        keras.callbacks.TensorBoard(log_dir=os.path.join("logs",  date + '_' + args.network),
+        histogram_freq=1),
+        keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0.01, patience=5, verbose=1, restore_best_weights=True)]
+
 
     model.fit_generator(
             train_generator,
@@ -78,7 +89,7 @@ def main(args):
             epochs=args.epochs,
             verbose=1,
             callbacks=callbacks,
-            validation_data=test_generator,
+            validation_data=valid_generator,
             validation_steps=None,
             validation_freq=1,
             class_weight=None,
@@ -90,7 +101,7 @@ def main(args):
 
     model.summary()
 
-    model.save_weights("./model_weights/" + date + '_' + args.network + '_dogs_' + str(args.dog_breeds).strip('[]') + ".h5")
+    model.save_weights("./model_weights/" + date + "_" + args.network + ".h5")
 
 
 if __name__ == "__main__":
@@ -98,14 +109,14 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--epochs", default="10", type=int, help="Sets number of epochs.")
     parser.add_argument("-l", "--learning-rate", default="0.0001", type=float, help="Sets learning rate.")
     parser.add_argument("-b", "--batch-size", default="32", type=int, help="Sets batch size.")
-    parser.add_argument("-n", "--network", default="Inception", type=str, choices=['Inception','BaseConv'], help="Type of network.")
-    parser.add_argument("-s", "--split", default="0.8", type=float, help="Portion of dataset used for training. Default=0.8.")
+    parser.add_argument("-n", "--network", default="Inception", type=str, choices=["Inception", "InceptionV3", "BaseConv", "InceptionResNet"], help="Type of network.")
     parser.add_argument("-w", "--workaround", action="store_true", help="Turn on workaround for Error \"Cudnn could "
                                                                           "not create handle\" because of low memory. "
                                                                           "Run only if you train the model on low "
                                                                           "spec GPU. Workaround is turned off by "
                                                                           "default, to turn it on set the -w argument")
     parser.add_argument("-d", "--dog-breeds", nargs="*", help="List of dog breeds to train on the neural network. Use the names from column names from annotaions.csv. If not specified train on all breeds. ")
+    parser.add_argument("-a", "--augmentation", action="store_true", help="Allow augmentation.")
     parsed_args = parser.parse_args()
 
     # Workaround for could not create cudnn handle because of low memory.
