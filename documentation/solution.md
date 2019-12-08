@@ -9,9 +9,11 @@ Každý obrázok obsahoval aspoň jedného psa, pričom pre každého psa na obr
 ![Bouding boxes](bounding_boxes.png)
 
 ## Použité architektúry
-Celkovo sme použili 4 architektúry z čoho 2 boli naše vlastné. Prvou našou sieťou bola obyčajná konvolučná sieť so 4 konvolučnými vrstvami. Každá konvolučná vrstva je nasledovaná MaxPooling vrsrvou s kernelom (2,2). Za posledným MaxPoolingom sa nachádza Droupot vrstva(0.25).
+Celkovo sme použili štyri architektúry z čoho dve boli naše vlastné. 
 
-# BaseConv 
+### BaseConv 
+Prvou našou sieťou bola obyčajná konvolučná sieť so štyrmi konvolučnými vrstvami. Každá konvolučná vrstva je nasledovaná MaxPooling vrsrvou s kernelom (2,2). Za posledným MaxPoolingom sa nachádza Droupot vrstva(0.25).
+
 ```
 Layer (type)                            
 ================================
@@ -40,11 +42,9 @@ ________________________________
 dense_1 (Dense)                
 ================================
 ```
-
-
-
 ### Inception
-Táto sieť je našou verziou InceptionNetu. Používa 4 inception vrstvy. Každú Inception vrstvu nasleduje MaxPooling vrsrva s kernelom (2,2).
+Druhou použitou sieťou je naša verzia Inception siete, ktorá využívala Inception vrstvy. Celkovo sa sieť skladá zo štytorch takýchto Inception vrstviev. Každú Inception vrstvu nasleduje MaxPooling vrsrva s kernelom (2,2).
+
 ![Inception layer](inception_layer.png)
 
 ```
@@ -74,6 +74,14 @@ dense_1 (Dense)
 ================================
 ```
 
+### InceptionV3
+[Táto sieť je preddefinovaná v knižnici Keras](https://keras.io/applications/#inceptionv3). Používali sme jej nepredtrénovanú verziu. Táto verzia siete obsahuje taktiež Inception vrstvy ako naša navrhovaná sieť, avšak nepoužíva 5x5 konvolúciu, ale dve 3x3 konvolúcie, čím sa zmenšil počet trénovateľných parametrov siete. Celkovo má táto sieť 42 vrstiev. Bližšie detajly k tejto sieti je možné získať [tu](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Szegedy_Rethinking_the_Inception_CVPR_2016_paper.pdf).
+
+![InceptionV3](inceptionV3.png)
+
+### InceptionResNetV2
+InceptionResNetV2 obsahuje Inception vrstvy, ktoré sú oproti InceptionV3 zjednodušené, taktiež je táto sieť oproti V3 hlbšia. Hlavným vylepšením tejto siete sú reziduálne spojenia,ktoré napomáhajú pri trénovaní extrémne hlbokých sietí. Celá špecifikácie siete je [tu](https://arxiv.org/pdf/1602.07261.pdf).
 
 
+![InceptionV3](inception_res_net.png)
 
