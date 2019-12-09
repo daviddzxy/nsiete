@@ -19,20 +19,19 @@ NSIETE projekt - Klasifikácia plemien psov
 ### Štruktúra projektu:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-nsiete/
 ├── data
-│   ├── annotations.csv # csv s metainformáciami a anotáciami
-│   ├── processed # predspracované obrázky
-│   └── raw # neupravené obrázky
+│   ├── annotations.csv # csv s metainformáciami a anotáciami, train.csv + valid.csv = annotations.csv
+│   ├── processed # predspracované obrázky
+│   ├── raw # neupravené obrázky
+│   ├── train.csv 
+│   └── valid.csv
 ├── docker
 │   ├── docker-compose.yml
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── documentation
-│   ├── doggo.png
-│   ├── inception_layer.png
 │   ├── proposal.md
-│   └── solution.md
+│   └── solution.md # dokumentácia riešenia
 ├── logs # priečinok na ukladanie záznamov trénovania
 ├── model_weights # priečinok na ukladanie váh modelov
 ├── notebooks
@@ -51,22 +50,19 @@ train.py
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Training script. [-h] [-e EPOCHS] [-l LEARNING_RATE] [-b BATCH_SIZE]
-                        [-n {Inception,BaseConv}] [-s SPLIT] [-w]
-                        [-d [DOG_BREEDS [DOG_BREEDS ...]]]
+                        [-n {Inception,InceptionV3,BaseConv,InceptionResNet}]
+                        [-w] [-d [DOG_BREEDS [DOG_BREEDS ...]]] [-a]
 
 optional arguments:
-  -h, --help            Show this help message and exit
+  -h, --help            show this help message and exit
   -e EPOCHS, --epochs EPOCHS
                         Sets number of epochs. (default: 10)
   -l LEARNING_RATE, --learning-rate LEARNING_RATE
                         Sets learning rate. (default: 0.0001)
   -b BATCH_SIZE, --batch-size BATCH_SIZE
                         Sets batch size. (default: 32)
-  -n {Inception,BaseConv}, --network {Inception,BaseConv}
+  -n {Inception,InceptionV3,BaseConv,InceptionResNet}, --network {Inception,InceptionV3,BaseConv,InceptionResNet}
                         Type of network. (default: Inception)
-  -s SPLIT, --split SPLIT
-                        Portion of dataset used for training. Default=0.8.
-                        (default: 0.8)
   -w, --workaround      Turn on workaround for Error "Cudnn could not create
                         handle" because of low memory. Run only if you train
                         the model on low spec GPU. Workaround is turned off by
@@ -75,7 +71,9 @@ optional arguments:
   -d [DOG_BREEDS [DOG_BREEDS ...]], --dog-breeds [DOG_BREEDS [DOG_BREEDS ...]]
                         List of dog breeds to train on the neural network. Use
                         the names from column names from annotaions.csv. If
-                        not specified train on all breeds.
+                        not specified train on all breeds. (default: None)
+  -a, --augmentation    Allow augmentation. (default: False)
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 preprocessing.py
@@ -88,5 +86,5 @@ Preprocessed images are stored in /data/processed.
 optional arguments:
   -h, --help            Show this help message and exit
   -r RESIZE, --resize RESIZE
-                        Width and height of resized image.
+                        Width and height of resized image. (default: 299)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
