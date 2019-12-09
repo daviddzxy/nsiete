@@ -103,6 +103,13 @@ Príklad augmentovaných obrázkov(prvý obrázok je originál):
 Na zastavenie trénovania sme používali techniku skorého zastavenia, ktoré sledovalo hodnotu validačnej loss funkcie, ak sa hodnota loss funkcie nezlepšila 5 epóch za sebou, tak sa trénovanie zastavilo a váhy modelu sa nastavili na posledné s najlepšou hodnotou validačnej loss funkcie.
 
 ## __Experimenty__
-
+### InceptionV3 experiment
+```
+batch_size=64,
+learning_rate=0.0005,
+augmentation=True
+```
+Experiment, pri ktorom sme použili model InceptionV3 sme trénovali celkovo viac ako osem hodín na karte Nvidia Tesla K80. Model sa trénoval celkovo 31 epoch, pričom najlepšia dosiahnutá presnosť na validačných dátach bola 0.63%. Logy z trénovania sa nachádzajú v priečinku logs/InceptionV3
 
 ## __Záver__
+Natrénovali sme celkovo 4 modely, z ktorých najlepší bol InceptionResnetV2. V pláne sme mali vyskúšať aj transfer learning, ale Keras obsahuje len váhy, ktoré boli natrénované na ImageNet databáze, z ktorej máme dáta aj my a teda niektoré triedy obrázkov sú rovnaké. Taktiež sme mali v pláne prehľadávať hyper parametre, avšak kvôli vysokej časovej náročnosti trénovania modelov, sme tento krok vynechali.
