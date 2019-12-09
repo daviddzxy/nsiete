@@ -24,6 +24,8 @@ pixelov.
 
 Bouding boxes
 
+Bouding boxes
+
 Použité architektúry
 --------------------
 
@@ -74,6 +76,8 @@ Inception vrstvu nasleduje MaxPooling vrsrva s kernelom (2,2).
 
 Inception layer
 
+Inception layer
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Layer (type)                 
 ================================
@@ -115,6 +119,8 @@ vrstiev. Bližšie detajly k tejto sieti je možné získať
 
 InceptionV3
 
+InceptionV3
+
 ### InceptionResNetV2
 
 InceptionResNetV2 obsahuje Inception vrstvy, ktoré sú oproti InceptionV3
@@ -123,6 +129,8 @@ siete sú reziduálne spojenia,ktoré napomáhajú pri trénovaní extrémne hlb
 sietí. Celá špecifikácie siete je [tu](https://arxiv.org/pdf/1602.07261.pdf).
 
 ![InceptionV3](media/720df632077d98bc79489d9d7c9cef4d.png)
+
+InceptionV3
 
 InceptionV3
 
@@ -146,8 +154,6 @@ fill_mode="nearest"
 Príklad augmentovaných obrázkov(prvý obrázok je originál):
 
 ![Augmentácia](media/dee7ad308426d9e07588717236e1d73d.png)
-
-Augmentácia
 
 Augmentácia
 
@@ -181,6 +187,9 @@ notebook nám padal kernel a nedalo sa týmto spôsobom trénovať.
 batch_size=64,
 learning_rate=0.0005,
 augmentation=True,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=40(31 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -194,6 +203,9 @@ pričom najlepšia dosiahnutá presnosť na validačných dátach bola 60.26%.
 batch_size=32,
 learning_rate=0.0005,
 augmentation=True,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=40(23 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -206,8 +218,8 @@ do pamäte RAM grafickej karty.
 
 Celkovo sme tento model trénovali 5h 46 minút. Po v tomto čase sme dosiahli
 opakovane nemeniace sa hodnoty loss funkcie, a teda trénovanie sa zastavilo po
-23 epochách. Natrénovaný model dosahuje správnosť 64,14% na validačnej množine
-dát a tiež hodnota funkcie loss=1,52.
+23 epochách. Natrénovaný model dosahuje presnosť 64,14% na validačnej množine
+dát a tiež hodnota funkcie loss=1.52.
 
 ### Inception experiment – vlastná sieť
 
@@ -215,13 +227,16 @@ dát a tiež hodnota funkcie loss=1,52.
 batch_size=32,
 learning_rate=0.0001,
 augmentation=False,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=10(9 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Trénovanie vlastných sieti sme vykonali ešte raz po úprave niektorých funkcií.
 Model sme tento krát trénovali použitím grafickej karty Nvidia Tesla V100.
-Trénovanie, ktoré sa skončilo po 9 epoche z 10 nastavených dosiahlo správnosť
-12,04% hodnotu funkcie loss=4,58, tieto hodnoty boli dosiahnuté na validačných
+Trénovanie, ktoré sa skončilo po 9 epoche z 10 nastavených dosiahlo presnosť
+12,04%, hodnotu funkcie loss=4.58, tieto hodnoty boli dosiahnuté na validačných
 dátach.
 
 ### BaseConv experiment – vlastná sieť
@@ -230,6 +245,9 @@ dátach.
 batch_size=32,
 learning_rate=0.0001,
 augmentation=False,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=10(8 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -243,7 +261,7 @@ Porovnanie dosiahnutých výsledkov
 
 **Hodnoty metriky accuracy pre použité siete na validačnej množine**
 
-![](media/6c653eab5cb6e302bf55489f9224fe61.png)
+![](media/71b9db828b60a213a29f7290c046028b.png)
 
 ![](media/80c3b0761e080029353b181042347a76.png)
 
@@ -254,16 +272,15 @@ Porovnanie dosiahnutých výsledkov
 ![](media/16548d5a06ac9a2473e4bc19ae58c1a4.png)
 
 Z týchto grafov je vidno že najlepšie sa darilo sieti InceptionResNet ktorá
-dosiahla úspešnosť 64,14%. V porovnaní so sieťou InceptionV3 je táto správnosť
-o 3,88% nižšia, ale pritom bola dosiahnutá za rýchlejší čas už pri 23 epoche.
+dosiahla presnosť 64.14%. V porovnaní so sieťou InceptionV3 je táto presnosť
+o 3,88% vyššia, pričom bola dosiahnutá za rýchlejší čas už pri 23. epoche.
 Hodnoty loss funkcie siete InceptionResNet sú oproti InceptionV3 taktiež nižšie.
 
-Nami navrhnuté modely sieti BaseConv a Ineption boli oproti pretrénovaným sieťam
-slabé. Dosahovali hodnoty úspešnosti približne 12% a 13%. Ako je možné vidieť
-z grafu loss funkcie tak tá začala ú týchto modelov rýchlo stúpať po prvých
+Nami navrhnuté modely sieti BaseConv a Ineption boli oproti ostatným dvom sieťam slabé, čo sa dalo čakať vzhľadom na počet trénovateľných parametrov. Dosahovali hodnoty úspešnosti približne 12% a 13%. Ako je možné vidieť
+z grafu loss funkcie tak tá začala u týchto modelov rýchlo stúpať po prvých
 piatich epochách. Ak by sme naše siete porovnali voči sebe tak zistíme že boli
-približne rovnako úspešné, avšak sieť BaseConv bola o trochu úspešnejšia než
-Inception, svoju hodnotu správnosti 13,31% dosiahla skôr ako sieť Inception.
+približne rovnako úspešné, avšak sieť BaseConv bola o trochu presnejšia než
+Inception.
 
 Záver
 -----
