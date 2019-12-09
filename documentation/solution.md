@@ -24,8 +24,6 @@ pixelov.
 
 Bouding boxes
 
-Bouding boxes
-
 Použité architektúry
 --------------------
 
@@ -76,8 +74,6 @@ Inception vrstvu nasleduje MaxPooling vrsrva s kernelom (2,2).
 
 Inception layer
 
-Inception layer
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Layer (type)                 
 ================================
@@ -119,8 +115,6 @@ vrstiev. Bližšie detajly k tejto sieti je možné získať
 
 InceptionV3
 
-InceptionV3
-
 ### InceptionResNetV2
 
 InceptionResNetV2 obsahuje Inception vrstvy, ktoré sú oproti InceptionV3
@@ -129,8 +123,6 @@ siete sú reziduálne spojenia,ktoré napomáhajú pri trénovaní extrémne hlb
 sietí. Celá špecifikácie siete je [tu](https://arxiv.org/pdf/1602.07261.pdf).
 
 ![InceptionV3](media/720df632077d98bc79489d9d7c9cef4d.png)
-
-InceptionV3
 
 InceptionV3
 
@@ -154,6 +146,8 @@ fill_mode="nearest"
 Príklad augmentovaných obrázkov(prvý obrázok je originál):
 
 ![Augmentácia](media/dee7ad308426d9e07588717236e1d73d.png)
+
+Augmentácia
 
 Augmentácia
 
@@ -187,9 +181,6 @@ notebook nám padal kernel a nedalo sa týmto spôsobom trénovať.
 batch_size=64,
 learning_rate=0.0005,
 augmentation=True,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=40(31 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -203,9 +194,6 @@ pričom najlepšia dosiahnutá presnosť na validačných dátach bola 60.26%.
 batch_size=32,
 learning_rate=0.0005,
 augmentation=True,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=40(23 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -227,9 +215,6 @@ dát a tiež hodnota funkcie loss=1,52.
 batch_size=32,
 learning_rate=0.0001,
 augmentation=False,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=10(9 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -245,9 +230,6 @@ dátach.
 batch_size=32,
 learning_rate=0.0001,
 augmentation=False,
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 epochs=10(8 done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -261,7 +243,7 @@ Porovnanie dosiahnutých výsledkov
 
 **Hodnoty metriky accuracy pre použité siete na validačnej množine**
 
-![](media/71b9db828b60a213a29f7290c046028b.png)
+![](media/6c653eab5cb6e302bf55489f9224fe61.png)
 
 ![](media/80c3b0761e080029353b181042347a76.png)
 
